@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ExerciseDao {
     private static final String CREAT_EXERCISE_QUERY = "INSERT INTO exercises (title, description) VALUES (?,?);";
-    private static final String FIND_ALL_EXERCISE_QUERY = "SELECT * FROM exercises;";
+    private static final String FIND_ALL_EXERCISES_QUERY = "SELECT * FROM exercises;";
     private static final String READ_EXERCISE_BY_ID_QUERY = "SELECT * FROM exercises where id = ?;";
     private static final String DELETE_EXERCISE_BY_ID_QUERY = "DELETE FROM exercises where id = ?;";
     private static final String UPDATE_EXERCISE_QUERY = "UPDATE exercises SET title = ? , description = ? WHERE id = ?;";
@@ -23,7 +23,7 @@ public class ExerciseDao {
      * @param exercise
      * @return
      */
-    public Exercise createUser(Exercise exercise) {
+    public Exercise create(Exercise exercise) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREAT_EXERCISE_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -56,7 +56,7 @@ public class ExerciseDao {
     public List<Exercise> findAll() {
         List<Exercise> exerciseList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_EXERCISE_QUERY);
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_EXERCISES_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
