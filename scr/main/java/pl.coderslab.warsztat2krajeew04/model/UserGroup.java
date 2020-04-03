@@ -12,6 +12,10 @@ public class UserGroup {
         this.name = name;
     }
 
+    public UserGroup(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "UserGroup{" +

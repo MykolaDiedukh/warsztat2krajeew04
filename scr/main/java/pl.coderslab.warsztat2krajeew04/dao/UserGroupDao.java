@@ -12,7 +12,7 @@ import java.util.List;
 
 public class UserGroupDao {
     private static final String CREAT_USER_QUERY = "INSERT INTO users_group (name) VALUE (?);";
-    private static final String FIND_ALL_USER_QUERY = "SELECT * FROM users_group;";
+    private static final String FIND_ALL_USERS_QUERY = "SELECT * FROM users_group;";
     private static final String READ_USER_BY_ID_QUERY = "SELECT * FROM users_group where id = ?;";
     private static final String DELETE_USER_BY_ID_QUERY = "DELETE FROM users_group where id = ?;";
     private static final String UPDATE_USER_QUERY = "UPDATE users_group SET name = ? WHERE id = ?;";
@@ -23,7 +23,7 @@ public class UserGroupDao {
      * @param userGroup
      * @return
      */
-    public UserGroup createUser(UserGroup userGroup) {
+    public UserGroup create(UserGroup userGroup) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREAT_USER_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -55,7 +55,7 @@ public class UserGroupDao {
     public List<UserGroup> findAll() {
         List<UserGroup> userGroupList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_USER_QUERY);
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_USERS_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {

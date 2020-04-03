@@ -12,9 +12,9 @@ import java.util.List;
 
 public class SolutionDao {
     private static final String CREAT_SOLUTION_QUERY = "INSERT INTO solutions (created, updated, description, exercise_id, user_id) VALUES (?,?,?,?,?);";
-    private static final String FIND_ALL_SOLUTION_QUERY = "SELECT * FROM solutions;";
-    private static final String FIND_ALL_SOLUTION_BY_USER_ID_QUERY = "SELECT * FROM solutions WHERE user_id = ?;";
-    private static final String FIND_ALL_SOLUTION_BY_EXERCISE_ID_QUERY = "SELECT * FROM solutions WHERE exercise_id = ? order by  created DESC;";
+    private static final String FIND_ALL_SOLUTIONS_QUERY = "SELECT * FROM solutions;";
+    private static final String FIND_ALL_SOLUTIONS_BY_USER_ID_QUERY = "SELECT * FROM solutions WHERE user_id = ?;";
+    private static final String FIND_ALL_SOLUTIONS_BY_EXERCISE_ID_QUERY = "SELECT * FROM solutions WHERE exercise_id = ? order by  created DESC;";
     private static final String READ_SOLUTION_BY_ID_QUERY = "SELECT * FROM solutions WHERE id = ?;";
     private static final String DELETE_SOLUTION_BY_ID_QUERY = "DELETE FROM solutions WHERE id = ?;";
     private static final String UPDATE_SOLUTION_QUERY = "UPDATE solutions SET created = ? , updated = ?, description = ?, exercise_id = ?, user_id = ? WHERE id = ?;";
@@ -25,7 +25,7 @@ public class SolutionDao {
      * @param solution
      * @return
      */
-    public Solution createUser(Solution solution) {
+    public Solution create(Solution solution) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREAT_SOLUTION_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -61,7 +61,7 @@ public class SolutionDao {
     public List<Solution> findAll() {
         List<Solution> solutionList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SOLUTION_QUERY);
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SOLUTIONS_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -151,7 +151,7 @@ public class SolutionDao {
     public List<Solution> findAllByUserId(int userId) {
         List<Solution> solutionList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SOLUTION_BY_USER_ID_QUERY)
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SOLUTIONS_BY_USER_ID_QUERY)
         ) {
             statement.setInt(1, userId);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -180,7 +180,7 @@ public class SolutionDao {
     public List<Solution> findAllByExerciseId(int exerciseId) {
         List<Solution> solutionList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SOLUTION_BY_EXERCISE_ID_QUERY)
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SOLUTIONS_BY_EXERCISE_ID_QUERY)
         ) {
             statement.setInt(1, exerciseId);
             try (ResultSet resultSet = statement.executeQuery()) {

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class UserDao {
     private static final String CREAT_USER_QUERY = "INSERT INTO users (username, email, password, user_group_id) VALUES (?,?,?,?);";
-    private static final String FIND_ALL_USER_QUERY = "SELECT * FROM users;";
+    private static final String FIND_ALL_USERS_QUERY = "SELECT * FROM users;";
     private static final String READ_USER_BY_ID_QUERY = "SELECT * FROM users where id = ?;";
     private static final String DELETE_USER_BY_ID_QUERY = "DELETE FROM users where id = ?;";
     private static final String UPDATE_USER_QUERY= "UPDATE users SET username = ? , email = ?, password = ?, user_group_id = ? WHERE id = ?;";
@@ -23,7 +23,7 @@ public class UserDao {
      * @param user
      * @return
      */
-    public User createUser(User user) {
+    public User create(User user) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREAT_USER_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -58,7 +58,7 @@ public class UserDao {
     public List<User> findAll() {
         List<User> userList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_USER_QUERY);
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_USERS_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
