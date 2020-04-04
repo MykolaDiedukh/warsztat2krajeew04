@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SolutionDao {
-    private static final String CREAT_SOLUTION_QUERY = "INSERT INTO solutions (created, updated, description, exercise_id, user_id) VALUES (?,?,?,?,?);";
+    private static final String CREAT_SOLUTION_QUERY = "INSERT INTO solutions (created, exercise_id, user_id) VALUES (?,?,?);";
     private static final String FIND_ALL_SOLUTIONS_QUERY = "SELECT * FROM solutions;";
     private static final String FIND_ALL_SOLUTIONS_BY_USER_ID_QUERY = "SELECT * FROM solutions WHERE user_id = ?;";
     private static final String FIND_ALL_SOLUTIONS_BY_EXERCISE_ID_QUERY = "SELECT * FROM solutions WHERE exercise_id = ? order by  created DESC;";
@@ -30,10 +30,8 @@ public class SolutionDao {
              PreparedStatement insertStm = connection.prepareStatement(CREAT_SOLUTION_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             insertStm.setString(1, solution.getCreated().toString());
-            insertStm.setString(2, solution.getUpdated().toString());
-            insertStm.setString(3, solution.getDescription());
-            insertStm.setInt(4, solution.getExerciseId());
-            insertStm.setInt(5, solution.getUserId());
+            insertStm.setInt(2, solution.getExerciseId());
+            insertStm.setInt(3, solution.getUserId());
             int result = insertStm.executeUpdate();
 
             if (result != 1) {

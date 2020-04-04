@@ -85,7 +85,7 @@ public class SolutionController {
         }
         int exerciseId = Integer.parseInt(scanner.nextLine());
         Solution solution = new Solution();
-        solution.setId(exerciseId);
+        solution.setExerciseId(exerciseId);
         solution.setCreated(LocalDateTime.now());
         solution.setUserId(userId);
         new SolutionDao().create(solution);
