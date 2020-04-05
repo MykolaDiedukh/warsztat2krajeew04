@@ -9,17 +9,22 @@ import java.util.Scanner;
 
 public class AddSolutionController {
     public static void main(String[] args) {
-        menu();
+        for (String str : args) {
+            if (!str.equals("")) {
+                menu(Integer.parseInt(str));
+            }
+        }
+//        menu();
     }
 
     /**
      * Method with menu
      */
-    private static void menu() {
-        System.out.println("Wpisz id");
+    private static void menu(int userId) {
+//        System.out.println("Wpisz id");
         Scanner scanner = new Scanner(System.in);
-
-        int userdId = Integer.parseInt(scanner.nextLine());
+//
+//        int userId = Integer.parseInt(scanner.nextLine());
 
         while (true) {
             System.out.println();
@@ -31,9 +36,9 @@ public class AddSolutionController {
             if (input.equals("0")) {
                 break;
             } else if (input.equals("1")) {
-                add(userdId);
+                add(userId);
             } else if (input.equals("2")) {
-                view(userdId);
+                view(userId);
             } else {
                 System.out.println("Provide a proper menu option!");
             }
@@ -50,24 +55,31 @@ public class AddSolutionController {
         List<Solution> solutionList = new SolutionDao().findAllByUserId(userId);
         System.out.println(String.format("|%3s|%20s|", "ID", "Description"));
         for (Solution solution : solutionList) {
-            if (solution.getDescription().equals("")) {
-                System.out.println(String.format("|%3s|%20s)" + solution.getId() + solution.getDescription()));
+            if (solution.getDescription() == null) {
+                System.out.println(String.format("|%3s|%20s|", solution.getId(), solution.getDescription()));
             }
         }
-        System.out.println("Chose id of exercise");
-        int solutionId = Integer.parseInt(scanner.nextLine());
-        while (true) {
+        int solutionId;
+        int i = 0;
+        System.out.println("Chose id of exercise or type 0 go to menu");
+        do {
+            solutionId = Integer.parseInt(scanner.nextLine());
             for (Solution solution : solutionList) {
-                if (solutionId == solution.getId() && solution.getDescription().equals("")) {
+                if (solutionId == solution.getId() && solution.getDescription()==null) {
                     System.out.println("Write answer");
                     String answer = scanner.nextLine();
                     Solution solution1 = new Solution();
+                    solution1.setId(solutionId);
                     solution1.setDescription(answer);
                     solution1.setUpdated(LocalDateTime.now());
                     new SolutionDao().update(solution1);
+                    i++;
                 }
             }
-        }
+            if (i == 0) {
+                System.out.println("Didn't found solution with that id or type 0 go to menu ");
+            }
+        } while (i != 1 && solutionId!=0 );
     }
 
     /**
@@ -79,7 +91,7 @@ public class AddSolutionController {
         List<Solution> solutionList = new SolutionDao().findAllByUserId(userId);
         System.out.println(String.format("|%3s|%20s|", "ID", "Description"));
         for (Solution solution : solutionList) {
-            System.out.println(String.format("|%3s|%20s)" + solution.getId() + solution.getDescription()));
+            System.out.println(String.format("|%3s|%20s|", solution.getId(), solution.getDescription()));
         }
     }
 }
