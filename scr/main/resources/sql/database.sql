@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `warsztat2krajeew04`.`users`
     `username`      VARCHAR(245) NULL COMMENT 'Name and last name of user',
     `email`         VARCHAR(245) NULL UNIQUE COMMENT 'Adresa email',
     `password`      VARCHAR(60)  NULL COMMENT 'Password',
-    `admin`         TINYINT      NULL COMMENT 'person(teacher) who can add rating and points for solution',
+#     `admin`         TINYINT      NULL COMMENT 'person(teacher) who can add rating and points for solution',
     `user_group_id` INT          NULL COMMENT 'Foreign key for table users_group',
     PRIMARY KEY (`id`),
     FOREIGN KEY (`user_group_id`)

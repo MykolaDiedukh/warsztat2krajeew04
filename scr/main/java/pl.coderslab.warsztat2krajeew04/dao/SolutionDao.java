@@ -18,6 +18,7 @@ public class SolutionDao {
     private static final String READ_SOLUTION_BY_ID_QUERY = "SELECT * FROM solutions WHERE id = ?;";
     private static final String DELETE_SOLUTION_BY_ID_QUERY = "DELETE FROM solutions WHERE id = ?;";
     private static final String UPDATE_SOLUTION_QUERY = "UPDATE solutions SET updated = ?, description = ? WHERE id = ?;";
+    private static final String UPDATE_SOLUTION_RATING_QUERY = "UPDATE solutions SET point = ?, comment = ? WHERE id = ?;";
 
     /**
      * Create solution
@@ -129,6 +130,23 @@ public class SolutionDao {
     public void update(Solution solution) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_SOLUTION_QUERY)) {
+            statement.setInt(3, solution.getId());
+            statement.setString(1, solution.getUpdated().toString());
+            statement.setString(2, solution.getDescription());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+ /**
+     * Update solution
+     *
+     * @param solution
+     */
+    public void updateRating(Solution solution) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_SOLUTION_RATING_QUERY)) {
             statement.setInt(3, solution.getId());
             statement.setString(1, solution.getUpdated().toString());
             statement.setString(2, solution.getDescription());

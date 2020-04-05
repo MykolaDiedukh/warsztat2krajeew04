@@ -7,6 +7,8 @@ public class Solution {
     private LocalDateTime created;
     private LocalDateTime updated;
     private String description;
+    private int point;
+    private String commentar;
     private int exerciseId;
     private int userId;
 
@@ -32,6 +34,22 @@ public class Solution {
                 ", exerciseId=" + exerciseId +
                 ", userId=" + userId +
                 '}';
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public String getCommentar() {
+        return commentar;
+    }
+
+    public void setCommentar(String commentar) {
+        this.commentar = commentar;
     }
 
     public int getId() {
