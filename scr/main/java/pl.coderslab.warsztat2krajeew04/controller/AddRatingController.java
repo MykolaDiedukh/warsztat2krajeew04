@@ -43,9 +43,9 @@ public class AddRatingController {
 
     private static void view(int userId) {
         List<Solution> solutionList = new SolutionDao().findAllByUserId(userId);
-        System.out.println(String.format("|%3s|%20s|", "ID", "Description"));
+        System.out.println(String.format("|%3s|%5s|%20S|", "ID", "Point", "Comment"));
         for (Solution solution : solutionList) {
-            System.out.println(String.format("|%3s|%20s|", solution.getId(), solution.getDescription()));
+            System.out.println(String.format("|%3s|%5s|%20S|", solution.getId(), solution.getPoint(), solution.getCommentar()));
         }
     }
 
