@@ -78,15 +78,16 @@ public class SolutionController {
         int userId = Integer.parseInt(scanner.nextLine());
 
         System.out.println("Chose solution by id");
-        List<Solution> solutionList = new SolutionDao().findAll();
-        System.out.println(String.format("|%3s|%20s|", "ID", "Description"));
-        for (Solution solution : solutionList){
-            System.out.println(String.format("|%3s|%20s|", solution.getId(), solution.getDescription()));
+        List<Exercise> exerciseList = new ExerciseDao().findAll();
+        System.out.println(String.format("|%3s|%20s|", "ID", "Title"));
+        for (Exercise solution : exerciseList){
+            System.out.println(String.format("|%3s|%20s|", solution.getId(), solution.getTitle()));
         }
-        int solutuinId = Integer.parseInt(scanner.nextLine());
+        int exerciseId = Integer.parseInt(scanner.nextLine());
         Solution solution = new Solution();
-        solution.setId(solutuinId);
+        solution.setExerciseId(exerciseId);
         solution.setCreated(LocalDateTime.now());
         solution.setUserId(userId);
+        new SolutionDao().create(solution);
     }
 }

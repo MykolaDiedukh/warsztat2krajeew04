@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SolutionDao {
-    private static final String CREAT_SOLUTION_QUERY = "INSERT INTO solutions (created, updated, description, exercise_id, user_id) VALUES (?,?,?,?,?);";
+    private static final String CREAT_SOLUTION_QUERY = "INSERT INTO solutions (created, exercise_id, user_id) VALUES (?,?,?);";
     private static final String FIND_ALL_SOLUTIONS_QUERY = "SELECT * FROM solutions;";
     private static final String FIND_ALL_SOLUTIONS_BY_USER_ID_QUERY = "SELECT * FROM solutions WHERE user_id = ?;";
     private static final String FIND_ALL_SOLUTIONS_BY_EXERCISE_ID_QUERY = "SELECT * FROM solutions WHERE exercise_id = ? order by  created DESC;";
     private static final String READ_SOLUTION_BY_ID_QUERY = "SELECT * FROM solutions WHERE id = ?;";
     private static final String DELETE_SOLUTION_BY_ID_QUERY = "DELETE FROM solutions WHERE id = ?;";
-    private static final String UPDATE_SOLUTION_QUERY = "UPDATE solutions SET created = ? , updated = ?, description = ?, exercise_id = ?, user_id = ? WHERE id = ?;";
+    private static final String UPDATE_SOLUTION_QUERY = "UPDATE solutions SET updated = ?, description = ? WHERE id = ?;";
+    private static final String UPDATE_SOLUTION_RATING_QUERY = "UPDATE solutions SET point = ?, comment = ? WHERE id = ?;";
 
     /**
      * Create solution
@@ -30,10 +31,8 @@ public class SolutionDao {
              PreparedStatement insertStm = connection.prepareStatement(CREAT_SOLUTION_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             insertStm.setString(1, solution.getCreated().toString());
-            insertStm.setString(2, solution.getUpdated().toString());
-            insertStm.setString(3, solution.getDescription());
-            insertStm.setInt(4, solution.getExerciseId());
-            insertStm.setInt(5, solution.getUserId());
+            insertStm.setInt(2, solution.getExerciseId());
+            insertStm.setInt(3, solution.getUserId());
             int result = insertStm.executeUpdate();
 
             if (result != 1) {
@@ -131,12 +130,26 @@ public class SolutionDao {
     public void update(Solution solution) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_SOLUTION_QUERY)) {
-            statement.setInt(6, solution.getId());
-            statement.setString(1, solution.getCreated().toString());
-            statement.setString(2, solution.getUpdated().toString());
-            statement.setString(3, solution.getDescription());
-            statement.setInt(4, solution.getExerciseId());
-            statement.setInt(5, solution.getUserId());
+            statement.setInt(3, solution.getId());
+            statement.setString(1, solution.getUpdated().toString());
+            statement.setString(2, solution.getDescription());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+ /**
+     * Update solution
+     *
+     * @param solution
+     */
+    public void updateRating(Solution solution) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_SOLUTION_RATING_QUERY)) {
+            statement.setInt(3, solution.getId());
+            statement.setString(1, solution.getUpdated().toString());
+            statement.setString(2, solution.getDescription());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,7 +172,9 @@ public class SolutionDao {
                     Solution solutionToAdd = new Solution();
                     solutionToAdd.setId(resultSet.getInt("id"));
                     solutionToAdd.setCreated(resultSet.getTimestamp("created").toLocalDateTime());
-                    solutionToAdd.setUpdated(resultSet.getTimestamp("updated").toLocalDateTime());
+                    if(resultSet.getTimestamp("updated")!=null) {
+                        solutionToAdd.setUpdated(resultSet.getTimestamp("updated").toLocalDateTime());
+                    }
                     solutionToAdd.setDescription(resultSet.getString("description"));
                     solutionToAdd.setExerciseId(resultSet.getInt("exercise_id"));
                     solutionToAdd.setUserId(resultSet.getInt("user_id"));

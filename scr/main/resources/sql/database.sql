@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS `warsztat2krajeew04`.`users`
     `username`      VARCHAR(245) NULL COMMENT 'Name and last name of user',
     `email`         VARCHAR(245) NULL UNIQUE COMMENT 'Adresa email',
     `password`      VARCHAR(60)  NULL COMMENT 'Password',
-    `user_group_id` INT          NOT NULL COMMENT 'Foreign key for table users_group',
+#     `admin`         TINYINT      NULL COMMENT 'person(teacher) who can add rating and points for solution',
+    `user_group_id` INT          NULL COMMENT 'Foreign key for table users_group',
     PRIMARY KEY (`id`),
     FOREIGN KEY (`user_group_id`)
         REFERENCES `warsztat2krajeew04`.`users_group` (`id`)
@@ -58,8 +59,10 @@ CREATE TABLE IF NOT EXISTS `warsztat2krajeew04`.`solutions`
     `created`     DATETIME NULL COMMENT 'Time of created solution',
     `updated`     DATETIME NULL COMMENT 'Time of updated solution',
     `description` TEXT     NULL COMMENT 'solution',
-    `exercise_id` INT      NOT NULL COMMENT 'Foreign key for table exercises',
-    `user_id`     INT      NOT NULL COMMENT 'Foreign key for table user',
+    `point`       INT(11)  NULL COMMENT 'rating for answer',
+    `comment`     TEXT     NULL COMMENT 'comment for answer',
+    `exercise_id` INT      NULL COMMENT 'Foreign key for table exercises',
+    `user_id`     INT      NULL COMMENT 'Foreign key for table user',
     PRIMARY KEY (id),
     FOREIGN KEY (`exercise_id`) REFERENCES `warsztat2krajeew04`.`exercises` (id),
     FOREIGN KEY (`user_id`) REFERENCES `warsztat2krajeew04`.`users` (id)
